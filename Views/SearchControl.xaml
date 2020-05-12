@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="BinarDataGenerator.Views.UserControl1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BinarDataGenerator.Views"
+              xmlns:vm="clr-namespace:BinarDataGenerator.ViewModels"
+        DataContext="{x:Static vm:MainViewModel.Instance}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+   
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+
+        <GroupBox Header="Created Data">
+            <ListBox x:Name="lstBinData" SelectionChanged="List_SelectionChanged" ItemsSource="{Binding BinnedData}" SelectedItem="{Binding SelectedBin}" MinWidth="50" Background="Transparent" Foreground="Aqua" BorderThickness="0"/>
+        </GroupBox>
+
+        <Grid Grid.Column="1" DataContext="{Binding SelectedBin}" Margin="5,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0">
+                <GroupBox.Header>
+                    <TextBlock>
+                        <Run Text="POLs"/>
+                        <Run Text="{Binding ElementName=lstPol2, Path=Items.Count, Mode=OneWay}"/>
+                    </TextBlock>
+                </GroupBox.Header>
+                <ListBox x:Name="lstPol2" SelectionMode="Single" SelectionChanged="List_SelectionChanged" ItemsSource="{Binding POLs}" />
+
+
+            </GroupBox>
+            <GroupBox Grid.Column="1" >
+                <GroupBox.Header>
+                    <TextBlock>
+                        <Run Text="DEP"/>
+                        <Run Text="{Binding ElementName=lstDep2, Path=Items.Count, Mode=OneWay}"/>
+                    </TextBlock>
+                </GroupBox.Header>
+                <ListBox x:Name="lstDep2" SelectionMode="Single"  SelectionChanged="List_SelectionChanged" ItemsSource="{Binding Depressions}" />
+
+
+            </GroupBox>
+            <GroupBox Grid.Column="2" >
+                <GroupBox.Header>
+                    <TextBlock>
+                        <Run Text="FRQ"/>
+                        <Run Text="{Binding ElementName=lstFrq2, Path=Items.Count, Mode=OneWay}"/>
+                    </TextBlock>
+                </GroupBox.Header>
+                <ListBox x:Name="lstFrq2" SelectionMode="Single"  ItemsSource="{Binding Frequencies}" SelectionChanged="List_SelectionChanged"/>
+
+
+            </GroupBox>
+            <StackPanel Grid.Column="3" VerticalAlignment="Center">
+
+                <TextBlock Text="{Binding SelectedVector}"/>
+                <TextBlock x:Name="txtTime"/>
+
+            </StackPanel>
+
+
+            <GroupBox Grid.Column="4" Margin="15,0">
+                <GroupBox.Header>
+                    <TextBlock >
+                        <Run Text="Results"/>
+                        <Run Text="{Binding ElementName=lstResults, Path=Items.Count, Mode=OneWay}"/>
+                    </TextBlock>
+                </GroupBox.Header>
+                <ListBox x:Name="lstResults" ItemsSource="{Binding Source={x:Static vm:MainViewModel.Instance}, Path=Records, Mode=OneWay}" DisplayMemberPath="Value">
+   
+                </ListBox>
+            </GroupBox>
+
+        </Grid>
+
+        <!--<Button Content="Search List" Click="Search_List" Grid.Row="1" HorizontalAlignment="Left"/>
+            <Button Content="Search Hash" Click="Search_Hash" Grid.Row="1" HorizontalAlignment="Right"/>-->
+
+
+
+    </Grid>
+
+</UserControl>

@@ -31,11 +31,27 @@ namespace BinarDataGenerator
                 ViewModel = vm;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 
+        ///     Create that data, Bro
+        ///     
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Create_Data_Click(object sender, RoutedEventArgs e)
         {
             ViewModel?.CreateData(lstFrq.SelectedItems, lstDep.SelectedItems, lstPol.SelectedItems, lstStat.SelectedItems);
         }
 
+       
+
+        /// <summary>
+        /// 
+        ///     Upon clicking any options, show the user what they will get
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int vectors = lstFrq.SelectedItems.Count * lstDep.SelectedItems.Count * lstPol.SelectedItems.Count;
@@ -47,11 +63,7 @@ namespace BinarDataGenerator
             ViewModel.ValueMax = values;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            SearchVector search = new SearchVector(ViewModel);
-            search.Show();
-        }
+       
 
        
     }
