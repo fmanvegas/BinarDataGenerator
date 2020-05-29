@@ -170,7 +170,17 @@
 
             <views:UserControl1/>
         </GroupBox>
-    
+
+        <GroupBox Grid.Column="2" Visibility="Collapsed">
+            <DataGrid x:Name="dg" AutoGenerateColumns="False" ItemsSource="{Binding Report.Test}" HeadersVisibility="All" EnableRowVirtualization="True" EnableColumnVirtualization="True">
+                <DataGrid.RowHeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DataContext.RowHeader, 
+                        RelativeSource={RelativeSource AncestorType=DataGridRow}}"></TextBlock>
+                    </DataTemplate>
+                </DataGrid.RowHeaderTemplate>
+            </DataGrid>
+        </GroupBox>
 
     </Grid>
 

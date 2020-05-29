@@ -28,7 +28,12 @@ namespace BinarDataGenerator
         {
             InitializeComponent();
             if (DataContext is MainViewModel vm)
+            {
                 ViewModel = vm;
+
+                ViewModel.Report.SetView(dg);
+            }
+
         }
 
         /// <summary>
@@ -43,7 +48,7 @@ namespace BinarDataGenerator
             ViewModel?.CreateData(lstFrq.SelectedItems, lstDep.SelectedItems, lstPol.SelectedItems, lstStat.SelectedItems);
         }
 
-       
+
 
         /// <summary>
         /// 
@@ -63,8 +68,8 @@ namespace BinarDataGenerator
             ViewModel.ValueMax = values;
         }
 
-       
 
-       
+
+
     }
 }

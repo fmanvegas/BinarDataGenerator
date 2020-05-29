@@ -57,5 +57,20 @@ namespace BinarDataGenerator.Views
            // foreach (var r in records)
           //      MainViewModel.Instance.ViewableRecords.Add(r.Value);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstBinData.SelectedItems.Count < 1) return;
+
+            //Get the file we've selected
+            BDataObject data = lstBinData.SelectedItems[0] as BDataObject;
+
+            //First, generate 'ReportData' based on the bin object
+            MainViewModel.Instance.Report.Generate(data);
+
+            //Show the results
+            Views.Report report = new Report(data);
+            report.Show();
+        }
     }
 }

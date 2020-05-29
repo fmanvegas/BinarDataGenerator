@@ -58,6 +58,7 @@ namespace BinarDataGenerator.ViewModels
         /// </summary>
         public ObservableCollection<BDataObject> BinnedData { get; } = new ObservableCollection<BDataObject>();
 
+        public ReportViewModel Report { get; private set; } = new ReportViewModel();
 
         #region Default selections to create data
 
