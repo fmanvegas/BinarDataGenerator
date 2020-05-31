@@ -30,8 +30,7 @@ namespace BinarDataGenerator
             if (DataContext is MainViewModel vm)
             {
                 ViewModel = vm;
-
-                ViewModel.Report.SetView(dg);
+                ViewModel.Report.SetTestView(dg);
             }
 
         }
@@ -59,6 +58,9 @@ namespace BinarDataGenerator
         /// <param name="e"></param>
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!IsLoaded)
+                return;
+
             int vectors = lstFrq.SelectedItems.Count * lstDep.SelectedItems.Count * lstPol.SelectedItems.Count;
             int objects = vectors * 360;
             int values = objects * lstStat.SelectedItems.Count;

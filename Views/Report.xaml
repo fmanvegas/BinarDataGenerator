@@ -5,12 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BinarDataGenerator.ViewModels"
         mc:Ignorable="d"
-                Foreground="White"
+                
+        Foreground="White"
         Background="Black"
         DataContext="{x:Static local:MainViewModel.Instance}"
         Title="Report" Height="450" Width="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="btv"/>
+        <local:ReportBoldConverter x:Key="bld"/>
+        <local:ReportEntryConverter x:Key="cv"/>
+        <local:ReportMultiConvert x:Key="multi"/>
+        <local:BorderConverter x:Key="border"/>
 
         <ContextMenu x:Key="DataContextMenu">
             <MenuItem Header="Polar"/>
@@ -21,12 +26,161 @@
                 Click="MenuItem_Click"/>
         </ContextMenu>
 
+        <Style TargetType="{x:Type DataGrid}">
+            
+            <Setter Property="Background" Value="Black"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Source={x:Static local:MainViewModel.Instance}, Path=Report.ShowAsWhite}" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Border}" x:Key="bdr">
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource border}">
+                        <Binding RelativeSource="{RelativeSource AncestorType=DataGridCell}"/>
+                        <Binding Source="{x:Static local:MainViewModel.Instance}" Path="Report.ShowBorder"/>
+                        <Binding Source="{x:Static local:MainViewModel.Instance}" Path="Report.ShowAsWhite"/>
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type DataGridRowHeader}" x:Key="Head">
+            <Setter Property="Padding" Value="5,0"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Yellow"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Source={x:Static local:MainViewModel.Instance}, Path=Report.ShowAsWhite}" Value="True">
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="White"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="Black"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Source={x:Static local:MainViewModel.Instance}, Path=Report.ShowAsWhite}" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Grid>
+                            <StackPanel>
+                                <ContentPresenter SnapsToDevicePixels="True" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Source={x:Static local:MainViewModel.Instance}, Path=Report.ShowAsWhite}" Value="True">
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Background" Value="White"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type DataGridCell}" x:Key="CELL">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource multi}">
+                        <Binding RelativeSource="{RelativeSource Mode=Self}"/>
+                        <Binding Source="{x:Static local:MainViewModel.Instance}" Path="Report.ShowAsWhite"/>
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Margin" Value="1"/>
+            
+            <!--<Setter Property="TextBlock.Text">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource multi}">
+                        <Binding RelativeSource="{RelativeSource Mode=Self}"/>
+                        <Binding Source="{x:Static local:MainViewModel.Instance}" Path="Report.ChangeReportType"/>
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>-->
+            <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Converter={StaticResource cv}}"/>-->
+
+            <Setter Property="FontWeight" Value="{Binding Source={x:Static local:MainViewModel.Instance},Path=Report.ShowBold, Converter={StaticResource bld}}"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Tag" Value="{Binding}"/>
+            <Setter Property="ContextMenu" Value="{StaticResource DataContextMenu}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid>
+                            <Border BorderThickness="2" Style="{StaticResource bdr}">
+                                <StackPanel Orientation="Vertical">
+                                    <!--<ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>-->
+
+                                    <TextBlock Padding="5,1">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Text">
+                                                    <Setter.Value>
+                                                        <MultiBinding Converter="{StaticResource multi}">
+                                                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type DataGridCell}}"/>
+                                                            <Binding Source="{x:Static local:MainViewModel.Instance}" Path="Report.ChangeReportType"/>
+                                                        </MultiBinding>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <!--<Setter Property="FontWeight">
+                                                    <Setter.Value>
+                                                        <Binding Source="{x:Static local:MainViewModel.Instance}" Path="Report.ShowBold" Converter="{StaticResource cv}"/>
+                                                    </Setter.Value>
+                                                </Setter>-->
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
@@ -40,46 +194,39 @@
 
             <GroupBox Header="Values">
                 <StackPanel>
-                    <RadioButton Content="Actuals" Checked="RadioButton_Checked" IsChecked="True"/>
-                    <RadioButton Content="Deltas" Checked="RadioButton_Checked"/>
-                    <RadioButton Content="Something" Checked="RadioButton_Checked"/>
-                    <RadioButton Content="Whatever" Checked="RadioButton_Checked"/>
+                    <RadioButton Content="Actuals"  IsChecked="{Binding Report.IsActual}"/>
+                    <RadioButton Content="Deltas"  IsChecked="{Binding Report.IsDelta}"/>
+                    <RadioButton Content="Colors" IsChecked="{Binding Report.IsColor}"/>
+                    <RadioButton Content="Rebuild Report" Checked="RadioButton_Checked"/>
                 </StackPanel>
             </GroupBox>
 
+            <GroupBox Header="Options">
+                <StackPanel>
+                    <CheckBox Content="White" IsChecked="{Binding Report.ShowAsWhite}"/>
+                    <CheckBox Content="Border" IsChecked="{Binding Report.ShowBorder}"/>
+                    <CheckBox Content="Bold" IsChecked="{Binding Report.ShowBold}"/>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
 
 
         <DataGrid x:Name="dg1" Grid.Column="1" Visibility="{Binding ElementName=opt1, Path=IsChecked, Converter={StaticResource btv}}"
-                  ItemsSource="{Binding Report.Format1}" MouseRightButtonUp="dg1_MouseRightButtonUp" SelectionMode="Single" SelectionUnit="Cell"
-                  AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"
+                  ItemsSource="{Binding Report.Format1}" 
+                  MouseRightButtonUp="dg1_MouseRightButtonUp" SelectionMode="Single" SelectionUnit="Cell" 
+                  AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserResizeRows="False" CanUserResizeColumns="False" 
+                  CellStyle="{StaticResource CELL}" GridLinesVisibility="None" EnableRowVirtualization="False"
                   >
-            <DataGrid.RowHeaderTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding DataContext.RowHeader, RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
-                </DataTemplate>
-            </DataGrid.RowHeaderTemplate>
-
-            <DataGrid.CellStyle>
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="Tag" Value="{Binding}"/>
-                    <Setter Property="ContextMenu" Value="{StaticResource DataContextMenu}">
-                        <!--<Setter.Value>
-                            <ContextMenu DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridCell}, Path=Tag}">
-                                <MenuItem Header = "Show Polar" 
-                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" 
-                                          Command = "{Binding Source={x:Static local:MainViewModel.Instance}, Path=Report.ShowPolarCommand}" />
-                                <MenuItem Header = "Menu 2" Command = "{Binding CmdMenu2}" />
-                                <MenuItem Header = "Menu 3" Command = "{Binding CmdMenu3}" />
-                            </ContextMenu>
-                        </Setter.Value>-->
-                    </Setter>
-                    
-                  
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type Button}" x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}">
+                    <Setter Property="Opacity" Value="0" />
                 </Style>
-            </DataGrid.CellStyle>
+            </DataGrid.Resources>
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="{x:Type DataGridRowHeader}" BasedOn="{StaticResource Head}">
+                    <Setter Property="Content" Value="{Binding DataContext.RowHeader, RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
+                </Style>
+            </DataGrid.RowHeaderStyle>
         </DataGrid>
 
         <DataGrid x:Name="dg2" Grid.Column="2" Visibility="{Binding ElementName=opt2, Path=IsChecked, Converter={StaticResource btv}}"

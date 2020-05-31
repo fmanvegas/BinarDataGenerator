@@ -24,7 +24,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <ListBox x:Name="lstBinData" SelectionChanged="List_SelectionChanged" ItemsSource="{Binding BinnedData}" SelectedItem="{Binding SelectedBin}" MinWidth="50" Background="Transparent" Foreground="Aqua" BorderThickness="0"/>
+                <ListBox x:Name="lstBinData" SelectionChanged="List_SelectionChanged" ItemsSource="{Binding BinnedData}" SelectedItem="{Binding SelectedBin}" MinWidth="50" Background="Transparent" Foreground="Aqua" BorderThickness="0"  SelectedIndex="0"/>
                 <Button Click="Button_Click" Grid.Row="1" Content="Gen Report" IsEnabled="{Binding ElementName=lstBinData, Path=SelectedItems.Count}"/>
 
             </Grid>

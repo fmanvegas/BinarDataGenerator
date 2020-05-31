@@ -89,5 +89,10 @@ namespace BinarDataGenerator.Views
             }
 
         }
+
+        private void dg1_MouseEnter(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }

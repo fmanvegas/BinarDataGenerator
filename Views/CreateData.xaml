@@ -53,7 +53,7 @@
                         <Run Text="{Binding ElementName=lstPol, Path=SelectedItems.Count, Mode=OneWay}"/>
                             </TextBlock>
                         </GroupBox.Header>
-                        <ListBox x:Name="lstPol" SelectionMode="Extended"  ItemsSource="{Binding POLS}" SelectionChanged="ListBox_SelectionChanged">
+                        <ListBox x:Name="lstPol" SelectionMode="Extended"  ItemsSource="{Binding POLS}" SelectionChanged="ListBox_SelectionChanged" SelectedIndex="0">
 
                         </ListBox>
                     </GroupBox>
@@ -64,7 +64,7 @@
                         <Run Text="{Binding ElementName=lstStat, Path=SelectedItems.Count, Mode=OneWay}"/>
                             </TextBlock>
                         </GroupBox.Header>
-                        <ListBox x:Name="lstStat" SelectionMode="Extended"  ItemsSource="{Binding STATS}" SelectionChanged="ListBox_SelectionChanged">
+                        <ListBox x:Name="lstStat" SelectionMode="Extended"  ItemsSource="{Binding STATS}" SelectionChanged="ListBox_SelectionChanged" SelectedIndex="0">
 
                         </ListBox>
                     </GroupBox>
@@ -75,7 +75,7 @@
                         <Run Text="{Binding ElementName=lstDep, Path=SelectedItems.Count, Mode=OneWay}"/>
                             </TextBlock>
                         </GroupBox.Header>
-                        <ListBox x:Name="lstDep" SelectionMode="Extended"  ItemsSource="{Binding Depressions}" SelectionChanged="ListBox_SelectionChanged">
+                        <ListBox x:Name="lstDep" SelectionMode="Extended"  ItemsSource="{Binding Depressions}" SelectionChanged="ListBox_SelectionChanged" SelectedIndex="0">
 
                         </ListBox>
                     </GroupBox>
@@ -86,7 +86,7 @@
                         <Run Text="{Binding ElementName=lstFrq, Path=SelectedItems.Count, Mode=OneWay}"/>
                             </TextBlock>
                         </GroupBox.Header>
-                        <ListBox x:Name="lstFrq" SelectionMode="Extended"  ItemsSource="{Binding Frequencies}" SelectionChanged="ListBox_SelectionChanged">
+                        <ListBox x:Name="lstFrq" SelectionMode="Extended"  ItemsSource="{Binding Frequencies}" SelectionChanged="ListBox_SelectionChanged" SelectedIndex="0">
 
                         </ListBox>
                     </GroupBox>
